@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# custom
+.vscode
+etc
+media_cdn/
+static_cdn/
