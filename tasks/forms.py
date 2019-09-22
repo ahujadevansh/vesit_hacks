@@ -10,3 +10,6 @@ class ReportForm(forms.ModelForm):
             'tasks',
             'report'
         ]
+
+
+

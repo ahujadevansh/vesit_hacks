@@ -31,8 +31,14 @@ class TaskView(View):
         
         return render(request,'tasks/tasks.html',{'form':form})
         
-
-
+def get_details(request):
+    user=request.user
+    context={
+        'user':CustomUser.objects.filter(supervisor=user)
+    }
+    return render (request,'tasks/incharge.html',context)
+    
+    
 
 
 

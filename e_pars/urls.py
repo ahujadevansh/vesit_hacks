@@ -25,7 +25,8 @@ urlpatterns = [
     path('', include('tasks.urls')),
     path('favicon.ico/',RedirectView.as_view(url='/static/images/favicon.ico'),name='favion'),
     ]
-    
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

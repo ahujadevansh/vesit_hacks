@@ -1,0 +1,9 @@
+{% extends 'users/base.html' %}
+{%block bodycontent%}
+<div class="list-group">
+    {%for users in user %}
+        <a class="list-group-item" href="#">{{ users.email }}</a>
+    {% endfor %}
+</div>
+{% endblock %}
+
