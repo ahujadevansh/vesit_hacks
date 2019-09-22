@@ -43,6 +43,7 @@ class CustomUser(AbstractUser):
                                     upload_to=profile_pic_path)
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True)
     dept = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True,blank=True)
+    ratings = models.FloatField()
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
