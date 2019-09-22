@@ -1,5 +1,7 @@
+import plotly.graph_objects as go
+
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task
+from .models import Task, WeeklyReport
 from users.models import CustomUser
 from django.views import View
 from .forms import ReportForm
@@ -39,6 +41,21 @@ def get_details(request):
     return render (request,'tasks/incharge.html',context)
     
     
+class GraphView(View):
+
+    template_name = 'tasks/graph.html'
+    def get(self, request, *args, **kwargs):
+        user=request.user
+        ratings = list(WeeklyReport.objects.values_list('ratings', flat=True).filter(user=user))
+        week_no = list(WeeklyReport.objects.values_list('week_number', flat=True).filter(user=user))
+        fig=go.Figure(
+            data=[go.Bar(y=ratings,x=week_no)],layout_title=f"Performance Graph {user.email}"
+        )
+        fig.show()
+        context = {
+            'user': user,
+        }
+        return redirect('task_tasks')
 
 
 

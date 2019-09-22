@@ -62,3 +62,6 @@ class Department(models.Model):
 
     d_name = models.CharField(max_length=500)
     d_head = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.d_name

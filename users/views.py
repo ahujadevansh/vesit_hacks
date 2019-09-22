@@ -19,7 +19,7 @@ class ProfileView(View):
     def get(self, request, *args, **kwargs):
         form = ProfileUpdateForm(instance=request.user)
         context = {
-            'p_form' : form,
+            'form' : form,
         }
         return render(request, self.template_name, context)
 

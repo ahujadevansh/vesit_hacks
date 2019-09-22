@@ -33,5 +33,8 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
+
         model = CustomUser
-        fields = ['email', 'mobile']
+        fields = ['email', 'mobile', 'gender', 'address', 'city', 'state',
+                  'country','profile_pic',
+        ]
