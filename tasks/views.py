@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, WeeklyReport
 from .models import Task, WeeklyReport
 from users.models import CustomUser
 from django.views import View
@@ -36,10 +36,15 @@ class TaskView(View):
 def get_details(request):
     user=request.user
     context={
-        'user':CustomUser.objects.filter(supervisor=user).order_by('ratings')
+        'user':user,
+        'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse()
     }
     return render (request,'tasks/incharge.html',context)
-    
+
+def subordinate_detail(request):
+    context={
+        'subordinate':CustomUser.objects.filter()
+    }   
     
 class GraphView(View):
 
@@ -57,5 +62,18 @@ class GraphView(View):
         }
         return redirect('task_tasks')
 
+class SubordinateDetails(View):
 
+    template_name = 'tasks/subordinate_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        subordinate = get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
+        subordinate_report = WeeklyReport.objects.filter(user=subordinate)
+        context = {
+            'subordinate': subordinate,
+            'subordinate_report': subordinate_report
+        }
+
+        return render(request, self.template_name, context)
 

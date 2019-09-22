@@ -1,9 +1,41 @@
 {% extends 'users/base.html' %}
 {%block bodycontent%}
+<br>
+<button type="button" class="btn btn-primary">Register/Edit</button>
+<br>
+<h1 align="center"> <span align="center" class="badge badge-secondary">{{user.first_name}}  {{user.last_name}}</span>
+    <div class="media">
+        <img src={{user.profile_pic}} class="mr-3" >
+
+      </div>
+
+</h1>
+    <div class="alert alert-primary" role="alert">
+            Your rating: {{user.ratings}}
+            <div class="progress">
+                    <div id="hello" class="progress-bar" role="progressbar" aria-valuenow="70"
+                    aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                    </div>
+                  </div>            
+          </div>
+
+<br><br>
+<h2> <span class="badge badge-secondary">Your Sub-Ordinates:</span></h2>
 <div class="list-group container">
-    {%for users in user %}
-        <a class="list-group-item" href="#">{{ users.email }}</a>
+    {%for subordinate in subordinates %}
+        <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{subordinate.first_name}}  {{subordinate.last_name}}</a>
     {% endfor %}
 </div>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        var rate="{{user.ratings}}";
+        rate=parseInt(rate)*10;
+        var assign=rate+"%";
+        console.log(assign)
+        $('#hello').css('width',assign);
+    }
+    );
+    </script>
 {% endblock %}
 

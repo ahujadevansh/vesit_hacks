@@ -22,6 +22,7 @@ class CustomUserAdmin(BaseUserAdmin):
             'role',
             'dept',
             'profile_pic',
+            'ratings',
         )}),
         ('Permissions', {'fields': (
             'is_active',
