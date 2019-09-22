@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('favicon.ico/',RedirectView.as_view(url='/static/images/favicon.ico'),name='favion'),
+    path('tasks/',include('tasks.urls'))
 ]
 
 
