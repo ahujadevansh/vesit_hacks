@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import CustomUser, Department, UserRole
 
+admin.AdminSite.site_header = "e_pars-Admin"
+admin.AdminSite.site_title = "E-PARS Site admin"
+admin.AdminSite.index_title = "E-PARS site adminstration"
 
 class CustomUserAdmin(BaseUserAdmin):
     fieldsets = (

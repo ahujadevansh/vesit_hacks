@@ -22,3 +22,4 @@ class WeeklyReport(models.Model):
     week_number = models.IntegerField()
     tasks = models.ManyToManyField(Task)
     report = models.FileField(upload_to=report_file_path)
+    ratings = models.FloatField(default=0)
