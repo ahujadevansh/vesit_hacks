@@ -7,13 +7,11 @@ from django.views.generic import UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import CustomUser
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
-
+from .forms import UserRegisterForm,ProfileUpdateForm
 
 @method_decorator(sensitive_post_parameters('email'), name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
-
     template_name = 'users/profile.html'
 
     def get(self, request, *args, **kwargs):
@@ -28,7 +26,23 @@ class ProfileView(View):
         if form.is_valid():
             form.save()
             messages.info(request,"Your Profile is updated")
+            return redirect('users_profile')   
+                  
+class RegisterView(View):
+    template_name = 'users/register.html'
+    def get(self, request, *args, **kwargs):
+        form = UserRegisterForm()
+        context = {
+            'form' : form,
+        }
+        return render(request, self.template_name, context)
+    def post(self, request, *args, **kwargs):
+        form = UserRegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.info(request,"Profile is created")
             return redirect('users_profile')
+        return render(request, self.template_name,{'form':form})
 
 def incharge(request):
     return render(request, 'users/incharge_login.html')
