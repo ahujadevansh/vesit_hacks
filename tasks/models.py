@@ -1,3 +1,6 @@
+import os
+import datetime
+
 from django.db import models
 from users.models import CustomUser
 
@@ -8,6 +11,9 @@ class Task(models.Model):
     duration_to = models.DateTimeField()
     description = models.TextField()
     members = models.ManyToManyField(CustomUser)
+
+    def __str__(self):
+        return self.t_name
 
 
 class WeeklyReport(models.Model):
@@ -23,3 +29,6 @@ class WeeklyReport(models.Model):
     tasks = models.ManyToManyField(Task)
     report = models.FileField(upload_to=report_file_path)
     ratings = models.FloatField(default=0)
+
+    def __str__(self):
+        return f"{self.user.email}-{self.week_number}"

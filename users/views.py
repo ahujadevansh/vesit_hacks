@@ -6,7 +6,7 @@ from django.views.decorators.debug import sensitive_variables,sensitive_post_par
 from django.views.generic import UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile
+from .models import CustomUser
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 
 
@@ -17,19 +17,21 @@ class ProfileView(View):
     template_name = 'users/profile.html'
 
     def get(self, request, *args, **kwargs):
-        u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
+        form = ProfileUpdateForm(instance=request.user)
         context = {
-            'u_form' : u_form,
-            'p_form' : p_form,
+            'form' : form,
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST, request.FILES ,instance=request.user.profile)
-        if p_form.is_valid() and u_form.is_valid() :
-            p_form.save()
-            u_form.save()
+        form = ProfileUpdateForm(request.POST, request.FILES ,instance=request.user)
+        if form.is_valid():
+            form.save()
             messages.info(request,"Your Profile is updated")
             return redirect('users_profile')
+
+def incharge(request):
+    return render(request, 'users/incharge_login.html')
+
+def home(request):
+    return render(request,'users/home.html')
