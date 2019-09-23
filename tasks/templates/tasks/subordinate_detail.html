@@ -20,10 +20,40 @@
                   </div>
                   <a class="btn btn-outline-success" href="{% url 'tasks-graph' subordinate.pk  %}"> graph </a>
     </div>
+        <br><br>
+    {% if False %}
+    <div class="form-group">
+                <label for="exampleFormControlSelect1">Rate sub-ordinate:</label> 
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </select>
+                <button type="button" class="btn btn-primary">Update</button>
+              </div>
+    
+    
+              {% else %}
+        <div>
+                <div class="alert alert-warning" role="alert">
+                       <h4>This week's report not submitted.</h4>
+                      </div>
+                <button type="button" class="btn btn-danger">Send Reminder</button>
+        </div>
+    {% endif %}
     
     <script type="text/javascript">
         $(document).ready(function()
         {
+            var stat=1;
             var rate="{{subordinate.ratings}}";
             rate=parseInt(rate)*10;
             var assign=rate+"%";
