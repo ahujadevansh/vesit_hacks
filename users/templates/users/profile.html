@@ -27,6 +27,7 @@
                 <label >DepartMent: {{ user.dept}}</label><br>
                 <label >Ratings: {{ user.ratings}}</label><br>
                 <label >Supervisor: {{ user.supervisor}}</label><br>
+                <a class="btn btn-outline-success" href="{% url 'tasks-graph_user' %}"> graph </a>
             </fieldset>
             <div class='form-group mx-auto'>
                 <button class='btn btn-outline-primary'><i class="fas fa-edit"></i> Update</button>

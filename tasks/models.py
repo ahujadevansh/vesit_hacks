@@ -29,6 +29,7 @@ class WeeklyReport(models.Model):
     tasks = models.ManyToManyField(Task)
     report = models.FileField(upload_to=report_file_path)
     ratings = models.FloatField(default=0)
+    
 
     def __str__(self):
         return f"{self.user.email}-{self.week_number}"
