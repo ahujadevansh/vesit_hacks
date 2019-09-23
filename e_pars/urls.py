@@ -18,11 +18,14 @@ from django.urls import path,include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from users import views as users_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('', include('tasks.urls')),
+    path('', users_views.home, name='home'),
     path('favicon.ico/',RedirectView.as_view(url='/static/images/favicon.ico'),name='favion'),
     ]
 

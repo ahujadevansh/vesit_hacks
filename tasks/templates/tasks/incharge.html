@@ -3,7 +3,7 @@
 <div class="row my-2">
 
     <div class="col-md-2">
-        <button type="button" class="btn btn-primary">Register/Edit</button>
+        <a type="button" class="btn btn-primary" href="{% url 'users_register' %}" >Register</a>
     </div>   
     <div class="media col-auto">
         <img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >

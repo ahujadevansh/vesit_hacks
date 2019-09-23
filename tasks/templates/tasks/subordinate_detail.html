@@ -4,8 +4,7 @@
 {%block bodycontent%}
 <h1 align="center"> <span align="center" class="badge badge-secondary">{{subordinate.first_name}}  {{subordinate.last_name}}</span>
     <div class="media">
-        <img src={{subordinate.profile_pic}} class="mr-3" >
-    </div>
+<img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >    </div>
     <div>
             <h4 align="left"><span class="badge badge-secondary">Gender:</span> {{subordinate.gender}}</h4>
             <h4 align="left"><span class="badge badge-secondary"> E-mail:</span> {{subordinate.email}}</h4>
