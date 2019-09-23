@@ -32,7 +32,7 @@ class ProfileView(View):
 @method_decorator(sensitive_post_parameters('password1', 'password2'),
                   name='dispatch')
 @method_decorator(login_required, name='dispatch')
-@method_decorator(role_required=[1])
+@method_decorator(role_required(allowed_roles=[1]), name='dispatch')
 class RegisterView(View):
     template_name = 'users/register.html'
 
