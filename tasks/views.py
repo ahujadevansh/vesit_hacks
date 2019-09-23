@@ -1,45 +1,78 @@
 import plotly.graph_objects as go
 
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task, WeeklyReport
+from .models import WeeklyReport
 from users.models import CustomUser
 from django.views import View
-from .forms import ReportForm
+from .forms import SendReportForm, ReportForm
+
+
+class TaskListView(View):
+
+    template_name = 'tasks/tasks.html'
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        my_weekly_reports = WeeklyReport.objects.filter(user=user)
+        context = {
+            'my_weekly_reports': my_weekly_reports
+        }
+        return render(request,self.template_name,context)
 
 class TaskView(View):
 
-    template_name = 'tasks/tasks.html'
+    template_name = 'tasks/tasks_detail.html'
 
     def get(self, request, *args, **kwargs):
-
-        user = request.user
-        # user = get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
-        my_tasks = Task.objects.filter(members=user)
-        print(my_tasks)
-        form = ReportForm()
+        report = get_object_or_404(WeeklyReport,pk=self.kwargs.get('pk'))
+        form = ReportForm(instance=report)
         context = {
-            'my_tasks': my_tasks,
+            'report': report,
             'form':form
         }
         return render(request,self.template_name,context)
     
     def post(self, request, *args, **kwargs):
-        print("hii",request.POST)
-        form = ReportForm(request.POST, request.FILES)
-        form.instance.user = self.request.user
+        report = get_object_or_404(WeeklyReport,pk=self.kwargs.get('pk'))
+        form = ReportForm(request.POST, request.FILES, instance=report)
+        form.instance.status = 1
         if form.is_valid():
             form.save()
             return redirect('users_profile')
         
-        return render(request,'tasks/tasks.html',{'form':form})
+        return render(request,self.template_name,{'form':form})
         
-def get_details(request):
-    user=request.user
-    context={
-        'user':user,
-        'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse()
-    }
-    return render (request,'tasks/incharge.html',context)
+class InchargeView(View):
+   
+
+    def get(self, request, *args, **kwargs):
+        user=request.user
+        form = SendReportForm()
+        form.instance.head = request.user
+        context = {
+            'form':form
+        }
+        context={
+            'user':user,
+            'form':form,
+            'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse()
+        }
+        return render (request,'tasks/incharge.html',context)
+    
+    def post(self, request, *args, **kwargs):
+        user=request.user
+        form = SendReportForm(request.POST, request.FILES)
+        form.instance.head = request.user
+        if form.is_valid():
+            form.save()
+            return redirect('incharge')
+        context={
+            'user':user,
+            'form':form,
+            'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse()
+        }
+        return render (request,'tasks/incharge.html',context)
+
+   
 
 
 class GraphViewUser(View):

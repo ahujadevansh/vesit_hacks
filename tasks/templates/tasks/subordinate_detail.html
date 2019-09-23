@@ -23,7 +23,7 @@
                   </div>
                   <a class="btn btn-outline-success" href="{% url 'tasks-graph' subordinate.pk  %}"> graph </a>
         <br><br>
-    {% if False %}
+    {% if subordinate_report.status == '1' %}
     <div class="form-group">
                 <label for="exampleFormControlSelect1">Rate sub-ordinate:</label> 
                 <select class="form-control" id="exampleFormControlSelect1">

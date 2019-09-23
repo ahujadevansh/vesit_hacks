@@ -4,10 +4,14 @@
 {% endblock title %}
 {% load crispy_forms_tags %}
 {% block bodycontent %}
-    <form method="POST" enctype="multipart/form-data">
+    <!-- <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
         <input class='btn btn-outline-primary' type="submit" value="submit">
-    </form>
-   
+    </form> -->
+   {% for report in my_weekly_reports %}
+        {% if report.status != 1 %}
+            <a href="{% url 'task_task_detail' report.pk %}" >{{ report.t_name }}</a><br>
+        {% endif %}
+   {% endfor %}
 {% endblock bodycontent %}
