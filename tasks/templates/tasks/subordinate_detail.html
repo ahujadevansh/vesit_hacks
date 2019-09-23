@@ -1,7 +1,9 @@
-
-
 {% extends 'users/base.html' %}
+{% block title %}
+    Sub-info
+{% endblock title %}
 {%block bodycontent%}
+<div class="container">
 <h1 align="center"> <span align="center" class="badge badge-secondary">{{subordinate.first_name}}  {{subordinate.last_name}}</span>
     <div class="media">
 <img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >    </div>
@@ -11,6 +13,7 @@
             <h4 align="left"><span class="badge badge-secondary"> Mobile no:</span> {{subordinate.mobile}}</h4>
             <div class="alert alert-primary" role="alert">
                    Rating: {{subordinate.ratings}}
+                   <br><br>
                     <div class="progress">
                             <div id="hell" class="progress-bar" role="progressbar" aria-valuenow="70"
                             aria-valuemin="0" aria-valuemax="100" style="width:0%">
@@ -61,5 +64,5 @@
         }
         );
         </script>
-
+</div>
 {% endblock %}
