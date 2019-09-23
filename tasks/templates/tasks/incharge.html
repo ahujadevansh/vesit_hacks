@@ -35,7 +35,28 @@
     {% for subordinate in subordinates %}
         <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{subordinate.first_name}}  {{subordinate.last_name}}</a>
     {% endfor %}
-</div>
+</div> 
+   {% comment %} <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>task name</th>
+        <th>subordinate</th>
+        <th>report</th>
+      </tr>
+
+    </thead>
+    <tbody>
+        {% for subordinate_report in subordinate_reports %}
+        {% if subordinate_report.status == 1 %}
+            <tr>
+                <td>{{ subordinate_report.t_name }}</td>
+                <td>{{ subordinate_report.user }}</td>
+                <td>{{ subordinate_report.report.url }}</td>
+            </tr>
+        {% endif %}
+   {% endfor %}
+    </tbody>
+    </table> {% endcomment %}
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}

@@ -25,34 +25,56 @@
                   <a class="btn btn-outline-success" href="{% url 'tasks-graph' subordinate.pk  %}"> graph </a>
     </div>
         <br><br>
-    {% if subordinate_report.status == '1' %}
-    <div class="form-group">
-                <label for="exampleFormControlSelect1">Rate sub-ordinate:</label> 
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>0</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                </select>
-                <button type="button" class="btn btn-primary">Update</button>
-              </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>task name</th>
+            <th>report</th>
+        </tr>
+
+        </thead>
+        <tbody>
+            {% for subordinate_report in subordinate_reports %}
+            {% if subordinate_report.status == 1 %}
+                <tr>
+                    <td><a href="{% url 'task-view_report' subordinate_report.pk %}">{{ subordinate_report.t_name }}</a></td>
+                    <td>{{ subordinate_report.report.url }}</td>
+                </tr>
+            {% endif %}
+    {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>task name</th>
+        </tr>
+
+        </thead>
+        <tbody>
+            {% for subordinate_report in subordinate_reports %}
+            {% if subordinate_report.status == 0 %}
+                <tr>
+                    <td>{{ subordinate_report.t_name }}</td>
+                </tr>
+            {% endif %}
+    {% endfor %}
+        </tbody>
+    </table>
+
     
-    
-              {% else %}
         <div>
-                <div class="alert alert-warning" role="alert">
-                       <h4>This week's report not submitted.</h4>
-                      </div>
-                <button type="button" class="btn btn-danger">Send Reminder</button>
+            <div class="alert alert-warning" role="alert">
+                    <h4>This week's report not submitted.</h4>
+                    </div>
+            <button type="button" class="btn btn-danger">Send Reminder</button>
+            <form action="tasks-sendemail" method="POST">
+                <input type="hidden" value="{{ subordinate.email }}" name="email" >
+                <button type="submit">submit
+                </button>
+            </form>
         </div>
-    {% endif %}
     
     <script type="text/javascript">
         $(document).ready(function()

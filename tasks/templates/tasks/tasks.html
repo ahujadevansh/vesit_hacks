@@ -4,17 +4,7 @@
 {% endblock title %}
 {% load crispy_forms_tags %}
 {% block bodycontent %}
-<<<<<<< HEAD
-
-    {% for task in my_tasks %}
-        <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{task.t_name}}</a>
-
-    {% endfor %}
-
-    <form method="POST" enctype="multipart/form-data">
-=======
     <!-- <form method="POST" enctype="multipart/form-data">
->>>>>>> 24340859ae51792842db112c55a1e04a6d5fe46d
         {% csrf_token %}
         {{ form|crispy }}
         <input class='btn btn-outline-primary' type="submit" value="submit">
@@ -24,4 +14,41 @@
             <a href="{% url 'task_task_detail' report.pk %}" >{{ report.t_name }}</a><br>
         {% endif %}
    {% endfor %}
+   <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>task name</th>
+            <th>report</th>
+        </tr>
+
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            {% if report.status == 1 %}
+                <tr>
+                    <td><a href="{% url 'task_task_detail' report.pk %}">{{ report.t_name }}</a></td>
+                    <td>{{ report.report.url }}</td>
+                </tr>
+            {% endif %}
+    {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>task name</th>
+        </tr>
+
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            {% if report.status != 1 %}
+                <tr>
+                    <td>{{ report.t_name }}</td>
+                </tr>
+            {% endif %}
+    {% endfor %}
+        </tbody>
+    </table>
 {% endblock bodycontent %}

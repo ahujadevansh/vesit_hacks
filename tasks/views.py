@@ -4,21 +4,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import WeeklyReport
 from users.models import CustomUser
 from django.views import View
-from .forms import SendReportForm, ReportForm
-
+from .forms import SendReportForm, ReportForm, ReceiveReportForm
+from django.core.mail import EmailMessage
 
 class TaskListView(View):
 
     template_name = 'tasks/tasks.html'
     def get(self, request, *args, **kwargs):
         user = request.user
-<<<<<<< HEAD
-        my_tasks = Task.objects.filter(members=user)
-        print(my_tasks)
-        form = ReportForm()
-=======
         my_weekly_reports = WeeklyReport.objects.filter(user=user)
->>>>>>> 24340859ae51792842db112c55a1e04a6d5fe46d
         context = {
             'my_weekly_reports': my_weekly_reports
         }
@@ -54,13 +48,15 @@ class InchargeView(View):
         user=request.user
         form = SendReportForm()
         form.instance.head = request.user
+        subordinate_reports = WeeklyReport.objects.filter(head=user)
         context = {
             'form':form
         }
         context={
             'user':user,
             'form':form,
-            'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse()
+            'subordinates':CustomUser.objects.filter(supervisor=user).order_by('ratings').reverse(),
+            'subordinate_reports': subordinate_reports
         }
         return render (request,'tasks/incharge.html',context)
     
@@ -87,9 +83,9 @@ class GraphViewUser(View):
     def get(self, request, *args, **kwargs):
         user=request.user
         ratings = list(WeeklyReport.objects.values_list('ratings', flat=True).filter(user=user))
-        week_no = list(WeeklyReport.objects.values_list('week_number', flat=True).filter(user=user))
+        no_of_weeks = [ i for i in range(1,len(ratings)+1)]
         fig=go.Figure(
-            data=[go.Bar(y=ratings,x=week_no)],layout_title=f"Performance Graph {user.email}"
+            data=[go.Bar(y=ratings,x=no_of_weeks)],layout_title=f"Performance Graph {user.email}"
         )
         fig.show()
         context = {
@@ -103,15 +99,27 @@ class GraphView(View):
     def get(self, request, *args, **kwargs):
         user=get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
         ratings = list(WeeklyReport.objects.values_list('ratings', flat=True).filter(user=user))
-        week_no = list(WeeklyReport.objects.values_list('week_number', flat=True).filter(user=user))
+        no_of_weeks = [ i for i in range(1,len(ratings)+1)]
         fig=go.Figure(
-            data=[go.Bar(y=ratings,x=week_no)],layout_title=f"Performance Graph {user.email}"
+            data=[go.Bar(y=ratings,x=no_of_weeks)],layout_title=f"Performance Graph {user.email}"
         )
         fig.show()
         context = {
             'user': user,
         }
         return redirect('incharge')
+
+class SendEmailView(View):
+    def post(self,request,*args,**kwargs):
+        email=request.post.get('email')
+
+        mail_subject = 'Reminder for report submission'
+        message = "Submit your Report"
+        to_email = email
+        email = EmailMessage(
+            mail_subject,message,to=[to_email]
+        )
+        return redirect('home')
 
 class SubordinateDetails(View):
 
@@ -120,11 +128,33 @@ class SubordinateDetails(View):
     def get(self, request, *args, **kwargs):
         
         subordinate = get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
-        subordinate_report = WeeklyReport.objects.filter(user=subordinate)
+        subordinate_reports = WeeklyReport.objects.filter(user=subordinate)
         context = {
             'subordinate': subordinate,
-            'subordinate_report': subordinate_report
+            'subordinate_reports': subordinate_reports
         }
 
         return render(request, self.template_name, context)
 
+
+class ViewReport(View):
+
+    template_name = 'tasks/view_report.html'
+
+    def get(self, request, *args, **kwargs):
+        report = get_object_or_404(WeeklyReport,pk=self.kwargs.get('pk'))
+        form = ReceiveReportForm(instance=report)
+        context = {
+            'report': report,
+            'form':form
+        }
+        return render(request,self.template_name,context)
+    
+    def post(self, request, *args, **kwargs):
+        report = get_object_or_404(WeeklyReport,pk=self.kwargs.get('pk'))
+        form = ReceiveReportForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('incharge')
+        
+        return render(request,self.template_name,{'form':form})

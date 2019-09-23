@@ -7,5 +7,8 @@ urlpatterns = [
     path('incharge/',task_views.InchargeView.as_view(),name='incharge'),
     path('incharge/<int:pk>/', task_views.SubordinateDetails.as_view(), name='task-subordinate_detail'),
     path('graph/',task_views.GraphViewUser.as_view(), name='tasks-graph_user'),
-    path('graph/<int:pk>',task_views.GraphView.as_view(), name='tasks-graph')
+    path('graph/<int:pk>',task_views.GraphView.as_view(), name='tasks-graph'),
+    path('view-report/<int:pk>',task_views.ViewReport.as_view(), name='task-view_report'),
+    path('sendreminder/',task_views.SendEmailView.as_view(), name='tasks-sendemail'),
+   
     ]
