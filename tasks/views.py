@@ -86,6 +86,15 @@ class SubordinateDetails(View):
             'subordinate': subordinate,
             'subordinate_report': subordinate_report
         }
-
         return render(request, self.template_name, context)
+    # def foo(self, request, *args, **kwargs):
+    #     user1 = get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
+    #     report = WeeklyReport.objects.filter(user=user1).values('ratings')
+    #     total = 0
+    #     j = 0
+    #     for item in  report:
+    #         total += item['ratings']
+    #         j += 1
+    #     user1.ratings = total//j
+    #     return True
 
