@@ -1,14 +1,18 @@
 {% extends 'users/base.html' %}
 {%block bodycontent%}
-<br>
-<button type="button" class="btn btn-primary">Register/Edit</button>
-<br>
-<h1 align="center"> <span align="center" class="badge badge-secondary">{{user.first_name}}  {{user.last_name}}</span>
-    <div class="media">
-        <img src={{user.profile_pic}} class="mr-3" >
+<div class="row my-2">
 
-      </div>
-
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary">Register/Edit</button>
+    </div>   
+    <div class="media col-auto">
+        <img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >
+    </div>     
+    <div class="col-md-2">
+        <h1 align="center"> <span align="center" class="badge badge-secondary">{{user.first_name}}  {{user.last_name}}</span>
+    </div>
+    
+</div>
 </h1>
     <div class="alert alert-primary" role="alert">
             Your rating: {{user.ratings}}

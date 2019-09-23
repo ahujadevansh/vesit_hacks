@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-from django.shortcuts import render, get_object_or_404, redirect, WeeklyReport
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Task, WeeklyReport
 from users.models import CustomUser
 from django.views import View
