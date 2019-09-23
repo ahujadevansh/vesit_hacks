@@ -4,6 +4,12 @@
     blog-Logout
 {% endblock title %}
 {% block bodycontent %}
+
+    {% for task in my_tasks %}
+        <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{task.t_name}}</a>
+
+    {% endfor %}
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}

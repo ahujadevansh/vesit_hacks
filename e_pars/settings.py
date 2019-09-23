@@ -144,7 +144,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'users_profile'
+LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'users_login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

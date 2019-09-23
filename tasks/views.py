@@ -13,7 +13,6 @@ class TaskView(View):
     def get(self, request, *args, **kwargs):
 
         user = request.user
-        # user = get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
         my_tasks = Task.objects.filter(members=user)
         print(my_tasks)
         form = ReportForm()
