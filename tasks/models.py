@@ -21,7 +21,7 @@ class WeeklyReport(models.Model):
     def report_file_path(self, filename):
         basefilename, file_extension = os.path.splitext(filename)
         randomstr = datetime.datetime.now().strftime('%d-%m-%Y_%I:%M:%S,%f')
-        return '{userid}/reports/week-{week_number}_{basename}_{randomstring}{ext}'.format(
+        return 'reports/{userid}/week-{week_number}_{basename}_{randomstring}{ext}'.format(
             userid=self.user.pk, week_number=self.week_number, basename=basefilename,
             randomstring=randomstr, ext=file_extension)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)

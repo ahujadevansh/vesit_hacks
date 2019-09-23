@@ -38,7 +38,7 @@ class CustomUser(AbstractUser):
     city = models.CharField(max_length=500)
     state = models.CharField(max_length=500)
     country = models.CharField(max_length=500)
-    supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     profile_pic = models.ImageField(default='nopic.jpg',
                                     upload_to=profile_pic_path)
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True)
