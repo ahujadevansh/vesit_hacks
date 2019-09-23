@@ -1,4 +1,5 @@
 {% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
 {%block bodycontent%}
 <div class="row my-2">
 
@@ -30,6 +31,11 @@
         <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{subordinate.first_name}}  {{subordinate.last_name}}</a>
     {% endfor %}
 </div>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" value="Send Task" class='btn btn-outline-primary '>
+</form>
 <script type="text/javascript">
     $(document).ready(function()
     {
