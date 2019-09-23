@@ -41,12 +41,8 @@ def get_details(request):
     }
     return render (request,'tasks/incharge.html',context)
 
-def subordinate_detail(request):
-    context={
-        'subordinate':CustomUser.objects.filter()
-    }   
-    
-class GraphView(View):
+
+class GraphViewUser(View):
 
     template_name = 'tasks/graph.html'
     def get(self, request, *args, **kwargs):
@@ -61,6 +57,22 @@ class GraphView(View):
             'user': user,
         }
         return redirect('task_tasks')
+
+class GraphView(View):
+
+    template_name = 'tasks/graph.html'
+    def get(self, request, *args, **kwargs):
+        user=get_object_or_404(CustomUser,pk=self.kwargs.get('pk'))
+        ratings = list(WeeklyReport.objects.values_list('ratings', flat=True).filter(user=user))
+        week_no = list(WeeklyReport.objects.values_list('week_number', flat=True).filter(user=user))
+        fig=go.Figure(
+            data=[go.Bar(y=ratings,x=week_no)],layout_title=f"Performance Graph {user.email}"
+        )
+        fig.show()
+        context = {
+            'user': user,
+        }
+        return redirect('incharge')
 
 class SubordinateDetails(View):
 
