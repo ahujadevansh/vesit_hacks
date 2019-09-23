@@ -1,9 +1,10 @@
 {% extends 'users/base.html' %}
-{% load crispy_forms_tags %}
 {% block title %}
-    blog-Logout
+    Tasks
 {% endblock title %}
+{% load crispy_forms_tags %}
 {% block bodycontent %}
+<<<<<<< HEAD
 
     {% for task in my_tasks %}
         <a class="list-group-item" href="{% url 'task-subordinate_detail' subordinate.pk  %}">{{task.t_name}}</a>
@@ -11,9 +12,16 @@
     {% endfor %}
 
     <form method="POST" enctype="multipart/form-data">
+=======
+    <!-- <form method="POST" enctype="multipart/form-data">
+>>>>>>> 24340859ae51792842db112c55a1e04a6d5fe46d
         {% csrf_token %}
         {{ form|crispy }}
         <input class='btn btn-outline-primary' type="submit" value="submit">
-    </form>
-   
+    </form> -->
+   {% for report in my_weekly_reports %}
+        {% if report.status != 1 %}
+            <a href="{% url 'task_task_detail' report.pk %}" >{{ report.t_name }}</a><br>
+        {% endif %}
+   {% endfor %}
 {% endblock bodycontent %}

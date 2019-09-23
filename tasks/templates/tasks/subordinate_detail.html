@@ -1,16 +1,21 @@
-
-
 {% extends 'users/base.html' %}
+{% block title %}
+    Sub-info
+{% endblock title %}
 {%block bodycontent%}
-<h1 align="center"> <span align="center" class="badge badge-secondary">{{subordinate.first_name}}  {{subordinate.last_name}}</span>
+<div class="container">
+        <div><h1 style="padding-top:2%" align="center"> <span align="center" class="badge badge-secondary">{{subordinate.first_name}}  {{subordinate.last_name}}</span>
+            </div>
     <div class="media">
-<img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >    </div>
+<img src="{{ user.profile_pic.url }}" class="img-thumbnail rounded-circle img-fluid mr-3" style="height:125px;width:125px" >    
+</div>
     <div>
             <h4 align="left"><span class="badge badge-secondary">Gender:</span> {{subordinate.gender}}</h4>
             <h4 align="left"><span class="badge badge-secondary"> E-mail:</span> {{subordinate.email}}</h4>
             <h4 align="left"><span class="badge badge-secondary"> Mobile no:</span> {{subordinate.mobile}}</h4>
             <div class="alert alert-primary" role="alert">
                    Rating: {{subordinate.ratings}}
+                   <br><br>
                     <div class="progress">
                             <div id="hell" class="progress-bar" role="progressbar" aria-valuenow="70"
                             aria-valuemin="0" aria-valuemax="100" style="width:0%">
@@ -19,10 +24,40 @@
                   </div>
                   <a class="btn btn-outline-success" href="{% url 'tasks-graph' subordinate.pk  %}"> graph </a>
     </div>
+        <br><br>
+    {% if subordinate_report.status == '1' %}
+    <div class="form-group">
+                <label for="exampleFormControlSelect1">Rate sub-ordinate:</label> 
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </select>
+                <button type="button" class="btn btn-primary">Update</button>
+              </div>
+    
+    
+              {% else %}
+        <div>
+                <div class="alert alert-warning" role="alert">
+                       <h4>This week's report not submitted.</h4>
+                      </div>
+                <button type="button" class="btn btn-danger">Send Reminder</button>
+        </div>
+    {% endif %}
     
     <script type="text/javascript">
         $(document).ready(function()
         {
+            var stat=1;
             var rate="{{subordinate.ratings}}";
             rate=parseInt(rate)*10;
             var assign=rate+"%";
@@ -31,5 +66,5 @@
         }
         );
         </script>
-
+</div>
 {% endblock %}
