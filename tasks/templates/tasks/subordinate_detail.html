@@ -3,7 +3,6 @@
     Sub-info
 {% endblock title %}
 {%block bodycontent%}
-<div class="container">
         <div><h1 style="padding-top:2%" align="center"> <span align="center" class="badge badge-secondary">{{subordinate.first_name}}  {{subordinate.last_name}}</span>
             </div>
     <div class="media">
@@ -14,7 +13,7 @@
             <h4 align="left"><span class="badge badge-secondary"> E-mail:</span> {{subordinate.email}}</h4>
             <h4 align="left"><span class="badge badge-secondary"> Mobile no:</span> {{subordinate.mobile}}</h4>
             <div class="alert alert-primary" role="alert">
-                   Rating: {{subordinate.ratings}}
+                   Rating: {{ subordinate.ratings }}
                    <br><br>
                     <div class="progress">
                             <div id="hell" class="progress-bar" role="progressbar" aria-valuenow="70"
@@ -23,7 +22,6 @@
                           </div>            
                   </div>
                   <a class="btn btn-outline-success" href="{% url 'tasks-graph' subordinate.pk  %}"> graph </a>
-    </div>
         <br><br>
     <table class="table table-hover">
         <thead>
@@ -80,7 +78,7 @@
         $(document).ready(function()
         {
             var stat=1;
-            var rate="{{subordinate.ratings}}";
+            var rate="{{ subordinate.ratings }}";
             rate=parseInt(rate)*10;
             var assign=rate+"%";
             console.log(assign)
